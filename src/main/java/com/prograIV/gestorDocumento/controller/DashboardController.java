@@ -17,17 +17,15 @@ public class DashboardController {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
 
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String username = auth.getName();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
 
-    var datos = datosService.obtenerDatosPorUsername(username);
+        var datos = datosService.obtenerDatosPorUsername(username);
 
-    model.addAttribute("usuarioNombre", datos.getNombre());
-    model.addAttribute("usuarioRol", datos.getRol());
-    model.addAttribute("usuarioFoto", "user.png");
+        model.addAttribute("usuarioNombre", datos.getNombre());
+        model.addAttribute("usuarioRol", datos.getRol());
+        model.addAttribute("usuarioFoto", datos.getFoto()); // puede ser null
 
-
-    return "dashboard";
-}
-
+        return "dashboard"; // templates/dashboard.html
+    }
 }

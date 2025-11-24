@@ -15,7 +15,6 @@ public class PerfilController {
 
     private final UsuarioDatosService datosService;
 
-    // --- MOSTRAR PERFIL ---
     @GetMapping("/perfil")
     public String perfil(Model model) {
 
@@ -29,10 +28,9 @@ public class PerfilController {
         model.addAttribute("usuarioApellido", datos.getApellido());
         model.addAttribute("usuarioFoto", datos.getFoto());
 
-        return "sap/perfil"; 
+        return "sap/perfil"; // templates/sap/perfil.html (fragmento)
     }
 
-    // --- GUARDAR CAMBIOS ---
     @PostMapping("/perfil/actualizar")
     @ResponseBody
     public String actualizarPerfil(
@@ -42,9 +40,7 @@ public class PerfilController {
             @RequestParam(value = "password", required = false) String password,
             @RequestParam(value = "foto", required = false) MultipartFile foto
     ) {
-
         datosService.actualizarPerfil(idUsuario, nombre, apellido, password, foto);
-
         return "Datos actualizados correctamente";
     }
 }

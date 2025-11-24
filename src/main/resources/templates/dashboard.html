@@ -52,6 +52,7 @@
                     <i class="bi bi-person-plus"></i> Crear Usuario / Admin
                 </a>
             </nav>
+
         </aside>
 
         <!-- CONTENIDO PRINCIPAL -->
@@ -73,15 +74,16 @@
                         aria-expanded="false" style="background-color: transparent; border: none;">
 
                         <!-- FOTO DEL USUARIO (si existe) -->
-                        <img th:if="${usuarioFoto != null}" th:src="@{'/img/' + ${usuarioFoto}}" class="rounded-circle"
-                            alt="Foto de usuario" style="width: 40px; height: 40px; object-fit: cover;">
+                        <img th:if="${usuarioFoto != null}" th:src="@{'/img/' + ${usuarioFoto}}"
+                             class="rounded-circle"
+                             alt="Foto de usuario"
+                             style="width: 40px; height: 40px; object-fit: cover;">
 
                         <!-- ICONO (si NO tiene foto) -->
                         <i th:if="${usuarioFoto == null}" class="bi bi-person-circle fs-3 text-white"></i>
 
                         <!-- NOMBRE -->
                         <span class="fw-semibold text-white" th:text="${usuarioNombre}">Usuario</span>
-
                     </button>
 
                     <ul class="dropdown-menu dropdown-menu-end shadow">
@@ -92,7 +94,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item" href="/cambiar-clave">
+                            <a class="dropdown-item" href="#" onclick="cargarVista('/perfil')">
                                 <i class="bi bi-key me-2"></i> Cambiar contraseña
                             </a>
                         </li>
@@ -108,9 +110,10 @@
                 </div>
             </nav>
 
-            <!-- CONTENIDO (NÚCLEO DINÁMICO DEL DASHBOARD) -->
+            <!-- CONTENIDO DINÁMICO -->
             <main id="sap-body" class="p-4">
 
+                <!-- CONTENIDO DEFAULT DEL DASHBOARD -->
                 <div class="mb-4">
                     <h2 class="fw-bold">
                         Bienvenido,
@@ -123,10 +126,7 @@
                     </p>
                 </div>
 
-                <!--BLOQUE DEFAULT DEL DASHBOARD-->
                 <div class="rounded shadow-sm p-4 mb-4" style="background-color: #1b263b;">
-
-                    <!-- ENCABEZADO -->
                     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                         <h3 class="text-white fw-bold mb-0">Documentos Recientes</h3>
 
@@ -139,7 +139,6 @@
                         </div>
                     </div>
 
-                    <!-- GRID DE DOCUMENTOS -->
                     <div class="row g-4">
 
                         <div class="col-md-6 col-xl-4">
@@ -188,6 +187,7 @@
             </main>
 
         </div>
+
     </div>
 
     <!-- Bootstrap JS -->

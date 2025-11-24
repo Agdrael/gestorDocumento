@@ -32,46 +32,40 @@ public class UsuarioDatosService {
     }
 
     /**
-     * Actualiza perfil del usuario:
+     * Actualiza perfil:
      * - nombre
      * - apellido
      * - password (si viene)
      * - foto (si viene)
      *
-     * Guarda la foto en: uploads/fotos/
-     * y almacena el nombre del archivo en UsuarioDatos.foto
+     * Guarda foto en uploads/fotos/ y guarda el nombre del archivo en usuario_datos.foto
      */
     @Transactional
     public void actualizarPerfil(Long idUsuario,
-            String nombre,
-            String apellido,
-            String newPassword,
-            MultipartFile foto) {
+                                 String nombre,
+                                 String apellido,
+                                 String newPassword,
+                                 MultipartFile foto) {
 
-        // 1. Buscar datos del usuario
         UsuarioDatos datos = datosRepo.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Datos no encontrados"));
 
-        Usuario usuario = datos.getUsuario(); // relación OneToOne
+        Usuario usuario = datos.getUsuario();
 
-        // 2. Actualizar nombre
         if (nombre != null && !nombre.isBlank()) {
             datos.setNombre(nombre.trim());
         }
 
-        // 3. Actualizar apellido
         if (apellido != null && !apellido.isBlank()) {
             datos.setApellido(apellido.trim());
         }
 
-        // 4. Actualizar contraseña si viene
         if (newPassword != null && !newPassword.isBlank()) {
             String hash = passwordEncoder.encode(newPassword);
             usuario.setPasswordHash(hash);
             usuarioRepo.save(usuario);
         }
 
-        // 5. Guardar foto si viene
         if (foto != null && !foto.isEmpty()) {
             try {
                 String original = foto.getOriginalFilename();
@@ -88,7 +82,6 @@ public class UsuarioDatosService {
             }
         }
 
-        // 6. Guardar datos del usuario
         datosRepo.save(datos);
     }
 }
