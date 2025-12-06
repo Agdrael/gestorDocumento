@@ -32,7 +32,14 @@
 
             <!-- SECCIÓN PRINCIPAL -->
             <nav class="nav flex-column gap-1 menu">
-                <a class="nav-link d-flex align-items-center gap-2" href="#" data-module="documentos">
+                <a class="nav-link d-flex align-items-center gap-2" th:if="${usuarioRol == 'admin'}"
+                    href="/dashboard-admin">
+                    <i class="bi bi-speedometer2"></i> Dashboard Admin
+                </a>
+
+                <a class="nav-link d-flex align-items-center gap-2" href="#"
+                    onclick="cargarVista('/dashboard-content')">
+
                     <i class="bi bi-folder"></i> Mis Documentos
                 </a>
 
@@ -74,10 +81,10 @@
                         aria-expanded="false" style="background-color: transparent; border: none;">
 
                         <!-- FOTO DEL USUARIO (si existe) -->
-                        <img th:if="${usuarioFoto != null}" th:src="@{'/img/' + ${usuarioFoto}}"
-                             class="rounded-circle"
-                             alt="Foto de usuario"
-                             style="width: 40px; height: 40px; object-fit: cover;">
+                        <img th:if="${usuarioFoto != null}" th:src="@{'/uploads/fotos/' + ${usuarioFoto}}"
+                            class="rounded-circle" alt="Foto de usuario"
+                            style="width: 40px; height: 40px; object-fit: cover;">
+
 
                         <!-- ICONO (si NO tiene foto) -->
                         <i th:if="${usuarioFoto == null}" class="bi bi-person-circle fs-3 text-white"></i>
@@ -99,7 +106,9 @@
                             </a>
                         </li>
 
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
 
                         <li>
                             <a class="dropdown-item text-danger" href="/logout">
@@ -113,76 +122,6 @@
             <!-- CONTENIDO DINÁMICO -->
             <main id="sap-body" class="p-4">
 
-                <!-- CONTENIDO DEFAULT DEL DASHBOARD -->
-                <div class="mb-4">
-                    <h2 class="fw-bold">
-                        Bienvenido,
-                        <span th:text="${usuarioNombre}">usuario</span>
-                    </h2>
-
-                    <p class="text-secondary mb-0">
-                        Tu rol actual es:
-                        <strong th:text="${usuarioRol}">rol</strong>
-                    </p>
-                </div>
-
-                <div class="rounded shadow-sm p-4 mb-4" style="background-color: #1b263b;">
-                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
-                        <h3 class="text-white fw-bold mb-0">Documentos Recientes</h3>
-
-                        <div style="width: 200px;">
-                            <select class="form-select">
-                                <option>Ordenar:</option>
-                                <option>Nuevos primero</option>
-                                <option>Antiguos primero</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row g-4">
-
-                        <div class="col-md-6 col-xl-4">
-                            <div class="card p-3 h-100">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold">DOC</span>
-                                    <button class="btn p-0">
-                                        <i class="bi bi-download fs-5"></i>
-                                    </button>
-                                </div>
-
-                                <h5 class="mt-2">Informe Ventas</h5>
-                                <p class="text-muted small mb-1">2.4 MB</p>
-                                <p class="small mb-3">Por: Rocío Ramos</p>
-
-                                <div class="d-flex gap-2 mt-auto">
-                                    <button class="btn btn-outline-primary btn-sm">Ver</button>
-                                    <button class="btn btn-primary btn-sm">Aprobar</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-xl-4">
-                            <div class="card p-3 h-100">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold">DOC</span>
-                                    <button class="btn p-0">
-                                        <i class="bi bi-download fs-5"></i>
-                                    </button>
-                                </div>
-
-                                <h5 class="mt-2">Informe Ventas</h5>
-                                <p class="text-muted small mb-1">2.4 MB</p>
-                                <p class="small mb-3">Por: Jairo Villeda</p>
-
-                                <div class="d-flex gap-2 mt-auto">
-                                    <button class="btn btn-outline-primary btn-sm">Ver</button>
-                                    <button class="btn btn-primary btn-sm">Aprobar</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
 
             </main>
 
@@ -195,6 +134,9 @@
 
     <!-- SAP JS -->
     <script src="/js/sap.js"></script>
+    
+
 
 </body>
+
 </html>

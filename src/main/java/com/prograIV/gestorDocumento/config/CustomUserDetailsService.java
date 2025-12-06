@@ -21,23 +21,34 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Usuario u = usuarioRepo.findByNombreUsuario(username)
+        // Buscar usuario principal
+        Usuario usuario = usuarioRepo.findByNombreUsuario(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no existe"));
 
-        UsuarioDatos datos = datosRepo.findById(u.getIdUsuario())
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario sin datos"));
+        // Verificar datos asociados
+        UsuarioDatos datos = datosRepo.findById(usuario.getIdUsuario())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario sin datos asociados"));
 
         if (Boolean.FALSE.equals(datos.getActivo())) {
             throw new UsernameNotFoundException("Usuario inactivo");
         }
 
-        // Spring Security espera "ROLE_xxx"
-        String role = "ROLE_" + datos.getRol().toUpperCase();
+        // Obtener roles REALES desde la DB
+        List<String> roles = usuarioRepo.findRolesByUsuarioId(usuario.getIdUsuario());
+
+        if (roles.isEmpty()) {
+            throw new UsernameNotFoundException("El usuario no tiene roles asignados");
+        }
+
+        List<SimpleGrantedAuthority> authorities =
+                roles.stream()
+                        .map(rol -> new SimpleGrantedAuthority("ROLE_" + rol.toUpperCase()))
+                        .toList();
 
         return new org.springframework.security.core.userdetails.User(
-                u.getNombreUsuario(),
-                u.getPasswordHash(),
-                List.of(new SimpleGrantedAuthority(role))
+                usuario.getNombreUsuario(),
+                usuario.getPasswordHash(),
+                authorities
         );
     }
 }

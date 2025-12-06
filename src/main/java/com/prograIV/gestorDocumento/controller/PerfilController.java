@@ -21,14 +21,25 @@ public class PerfilController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
+        // ----------------------------
+        // CALCULAR ROL (igual que dashboard)
+        // ----------------------------
+        String rol = auth.getAuthorities()
+                .stream()
+                .findFirst()
+                .map(a -> a.getAuthority().replace("ROLE_", "").toLowerCase())
+                .orElse("sin rol");
+        // ----------------------------
+
         var datos = datosService.obtenerDatosPorUsername(username);
 
         model.addAttribute("idUsuario", datos.getIdUsuario());
         model.addAttribute("usuarioNombre", datos.getNombre());
         model.addAttribute("usuarioApellido", datos.getApellido());
         model.addAttribute("usuarioFoto", datos.getFoto());
+        model.addAttribute("usuarioRol", rol); 
 
-        return "sap/perfil"; // templates/sap/perfil.html (fragmento)
+        return "perfil";
     }
 
     @PostMapping("/perfil/actualizar")
@@ -38,8 +49,7 @@ public class PerfilController {
             @RequestParam("nombre") String nombre,
             @RequestParam("apellido") String apellido,
             @RequestParam(value = "password", required = false) String password,
-            @RequestParam(value = "foto", required = false) MultipartFile foto
-    ) {
+            @RequestParam(value = "foto", required = false) MultipartFile foto) {
         datosService.actualizarPerfil(idUsuario, nombre, apellido, password, foto);
         return "Datos actualizados correctamente";
     }

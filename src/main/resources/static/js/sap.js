@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const moduleName = link.dataset.module;
 
-            const response = await fetch(`/sap/${moduleName}`);
+            const response = await fetch(`${moduleName}`);
             const html = await response.text();
 
             sapBody.innerHTML = html;
@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Cargar cualquier vista dentro del dashboard
 async function cargarVista(url) {
+
+
     const sapBody = document.getElementById("sap-body");
 
     const response = await fetch(url);
@@ -60,6 +62,11 @@ async function cargarVista(url) {
             reader.readAsDataURL(file);
         });
     }
+
+    if (url === "/dashboard-content") {
+        setTimeout(() => cargarDocumentos(), 50);
+    }
+
 }
 
 async function guardarPerfil() {
@@ -94,3 +101,99 @@ async function guardarPerfil() {
     const msg = await response.text();
     alert(msg);
 }
+
+async function cargarDocumentos() {
+    const res = await fetch("/api/documentos/mios");
+    const docs = await res.json();
+
+    const cont = document.getElementById("lista-documentos");
+    cont.innerHTML = "";
+
+    docs.forEach(doc => {
+
+        cont.innerHTML += `
+        <div class="col-md-6 col-xl-4">
+            <div class="card p-3 h-100">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-bold">DOC</span>
+                    <button class="btn p-0" onclick="descargarDoc('${doc.id}')">
+                        <i class="bi bi-download fs-5"></i>
+                    </button>
+                </div>
+
+                <h5 class="mt-2">${doc.titulo}</h5>
+                <p class="text-muted small mb-1">${doc.fecha}</p>
+
+                <p class="small mb-1">Por: ${doc.nombre} ${doc.apellido}</p>
+
+                <div class="mb-3">
+                    ${obtenerBadgeEstado(doc.estado)}
+                </div>
+
+                <div class="d-flex gap-2 mt-auto">
+                    <button class="btn btn-outline-primary btn-sm" onclick="verDoc('${doc.id}')">
+                        Ver
+                    </button>
+
+                    <button class="btn btn-primary btn-sm">
+                        Aprobar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        `;
+    });
+}
+
+async function subirDocumento() {
+    let titulo = document.getElementById("tituloDoc").value;
+    let archivo = document.getElementById("archivoDoc").files[0];
+
+    if (!titulo) {
+        alert("Debe ingresar un título.");
+        return;
+    }
+
+    if (!archivo) {
+        alert("Debe seleccionar un archivo.");
+        return;
+    }
+
+    let form = new FormData();
+    form.append("titulo", titulo);
+    form.append("archivo", archivo);
+
+    let res = await fetch("/documentos/subir", {
+        method: "POST",
+        body: form
+    });
+
+    let texto = await res.text();
+    alert(texto);
+
+    // Recargar lista de documentos
+    cargarDocumentos();
+}
+
+function obtenerBadgeEstado(estado) {
+    switch (estado) {
+        case "primera_vista":
+            return '<span class="badge bg-warning text-dark">Primera vista</span>';
+
+        case "verificado":
+            return '<span class="badge bg-info text-dark">Verificado</span>';
+
+        case "firmado":
+            return '<span class="badge bg-success">Firmado</span>';
+
+        case "rechazado":
+            return '<span class="badge bg-danger">Rechazado</span>';
+
+        default:
+            return '<span class="badge bg-secondary">Desconocido</span>';
+    }
+}
+
+

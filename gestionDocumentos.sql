@@ -118,3 +118,17 @@ INSERT INTO roles (nombre, descripcion) VALUES
 ('firmante', 'Puede firmar documentos'),
 ('revisor', 'Puede verificar documentos'),
 ('usuario', 'Usuario normal');
+
+INSERT INTO usuarios (nombre_usuario, password_hash) VALUES
+('admin', '$2a$10$5U7tkLjxJvLCYOtJk9H6beSzF/Lo6GrCVuVi//3yQtJCb52ZS4nDi'), -- admin123
+('usuario', '$2a$10$0vsaNQre58QktF9UfPPxkeyM6E5qUPpoFVIhSK20WfwGRJO/SyWRW'); -- usuario123
+
+INSERT INTO usuario_datos (id_usuario, nombre, apellido, correo, foto, activo) VALUES
+(1, 'Carlos', 'Administrador', 'admin@empresa.com', NULL, true),
+(2, 'Pedro', 'Usuario', 'usuario@empresa.com', NULL, true);
+
+INSERT INTO usuario_rol (id_usuario, id_rol)
+VALUES (1, 1);  -- admin tiene rol admin
+INSERT INTO usuario_rol (id_usuario, id_rol)
+VALUES (2, 4);  -- usuario tiene rol usuario
+

@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
 @Service
 @RequiredArgsConstructor
 public class UsuarioDatosService {
@@ -23,22 +24,21 @@ public class UsuarioDatosService {
     private final UsuarioDatosRepository datosRepo;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Obtiene datos del usuario usando username (forma correcta con JOIN)
+     */
     public UsuarioDatos obtenerDatosPorUsername(String username) {
-        Usuario u = usuarioRepo.findByNombreUsuario(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        return datosRepo.findById(u.getIdUsuario())
+        return datosRepo.findByUsuario_NombreUsuario(username)
                 .orElseThrow(() -> new RuntimeException("Datos del usuario no encontrados"));
     }
 
     /**
-     * Actualiza perfil:
+     * Actualiza:
      * - nombre
      * - apellido
-     * - password (si viene)
-     * - foto (si viene)
-     *
-     * Guarda foto en uploads/fotos/ y guarda el nombre del archivo en usuario_datos.foto
+     * - password
+     * - foto
      */
     @Transactional
     public void actualizarPerfil(Long idUsuario,
@@ -52,20 +52,23 @@ public class UsuarioDatosService {
 
         Usuario usuario = datos.getUsuario();
 
+        // Actualizar nombre
         if (nombre != null && !nombre.isBlank()) {
             datos.setNombre(nombre.trim());
         }
 
+        // Actualizar apellido
         if (apellido != null && !apellido.isBlank()) {
             datos.setApellido(apellido.trim());
         }
 
+        // Actualizar contraseña
         if (newPassword != null && !newPassword.isBlank()) {
-            String hash = passwordEncoder.encode(newPassword);
-            usuario.setPasswordHash(hash);
+            usuario.setPasswordHash(passwordEncoder.encode(newPassword));
             usuarioRepo.save(usuario);
         }
 
+        // Actualizar foto si se envió
         if (foto != null && !foto.isEmpty()) {
             try {
                 String original = foto.getOriginalFilename();

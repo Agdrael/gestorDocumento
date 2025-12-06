@@ -19,11 +19,9 @@ public class UsuarioDatos {
     private String apellido;
 
     private String foto;
-    private String correo;
-    private String telefono;
 
     @Column(nullable = false)
-    private String rol;
+    private String correo;
 
     private Boolean activo = true;
 
