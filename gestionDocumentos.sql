@@ -111,7 +111,9 @@ INSERT INTO estados (id_estado, descripcion, es_final) VALUES
 ('primera_vista', 'Documento recién subido', false),
 ('verificado', 'Revisado y correcto', false),
 ('firmado', 'Firmado digitalmente', true),
-('rechazado', 'Rechazado', true);
+('rechazado', 'Rechazado', true),
+('papelera','Papelera',true),
+('almacenar','guardados en la base, no se han enviado',false);
 
 INSERT INTO roles (nombre, descripcion) VALUES
 ('admin', 'Administrador del sistema'),
@@ -131,4 +133,7 @@ INSERT INTO usuario_rol (id_usuario, id_rol)
 VALUES (1, 1);  -- admin tiene rol admin
 INSERT INTO usuario_rol (id_usuario, id_rol)
 VALUES (2, 4);  -- usuario tiene rol usuario
+
+
+
 

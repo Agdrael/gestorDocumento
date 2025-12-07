@@ -2,6 +2,7 @@ package com.prograIV.gestorDocumento.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,6 +94,29 @@ public class DashboardController {
         data.put("mensual", dashRepo.documentosPorMes());
 
         return data;
+    }
+
+    @GetMapping("/papelera")
+    public String papelera() {
+        return "papelera";
+    }
+
+    @GetMapping("/usuarios")
+    public String usuarios() {
+        return "usuarios";
+    }
+
+    @GetMapping("/documentos/enviados")
+    public String documentosEnviados() {
+        return "documentos-enviados";
+    }
+
+    @GetMapping("/documentos/por-aprobar")
+    public String documentosPorAprobar(Model model, Principal principal) {
+
+        model.addAttribute("usuarioNombre", principal.getName());
+
+        return "documentos-por-aprobar";
     }
 
 }

@@ -5,10 +5,14 @@ import com.prograIV.gestorDocumento.model.UsuarioDatos;
 import com.prograIV.gestorDocumento.repository.UsuarioRepository;
 import com.prograIV.gestorDocumento.repository.UsuarioDatosRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -87,4 +91,25 @@ public class UsuarioDatosService {
 
         datosRepo.save(datos);
     }
+
+
+    public Long obtenerIdUsuarioActual() {
+
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    String username;
+
+    if (principal instanceof UserDetails userDetails) {
+        username = userDetails.getUsername();
+    } else {
+        username = principal.toString();
+    }
+
+    // buscar id del usuario usando el username
+    Usuario usuario = usuarioRepo.findByNombreUsuario(username)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+    return usuario.idUsuario;
+}
+
 }

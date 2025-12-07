@@ -15,7 +15,7 @@ public class UsuarioRol {
 
     @Id
     @Column(name = "id_usuario")
-    private Long idUsuario;
+    public Long idUsuario;
 
     @Id
     @Column(name = "id_rol")

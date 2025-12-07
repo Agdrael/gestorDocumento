@@ -3,9 +3,6 @@ async function cargarDashboardAdmin() {
     const res = await fetch("/api/admin/dashboard");
     const data = await res.json();
 
-    // --------------------------
-    // PIE - DOCUMENTOS POR USUARIO
-    // --------------------------
     const pieLabels = data.porUsuario.map(x => x.usuario);
     const pieData = data.porUsuario.map(x => x.cantidad);
 
@@ -19,9 +16,6 @@ async function cargarDashboardAdmin() {
         }
     });
 
-    // --------------------------
-    // RANKING TABLA
-    // --------------------------
     const ranking = document.getElementById("tablaRanking");
     ranking.innerHTML = "";
     data.ranking.forEach(r => {
@@ -33,9 +27,6 @@ async function cargarDashboardAdmin() {
         `;
     });
 
-    // --------------------------
-    // LINEA - DOCUMENTOS MENSUALES
-    // --------------------------
     const meses = data.mensual.map(x => x.mes);
     const primeraVista = data.mensual.map(x => x.primera_vista);
     const verificados = data.mensual.map(x => x.verificado);

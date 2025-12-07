@@ -48,3 +48,28 @@
 
     </div>
 </div>
+
+
+<!-- Modal para enviar documento -->
+<div class="modal fade" id="modalEnviarDoc" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title">Enviar documento</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>Selecciona el administrador que recibirá el documento:</p>
+
+        <select id="selectAdmin" class="form-select"></select>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" onclick="confirmarEnvio()">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

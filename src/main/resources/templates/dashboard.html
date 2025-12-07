@@ -44,22 +44,26 @@
                     <i class="bi bi-folder"></i> Mis Documentos
                 </a>
 
-                <a class="nav-link d-flex align-items-center gap-2" href="#" data-module="enviar">
-                    <i class="bi bi-send"></i> Enviar Documentos
-                </a>
+                <li>
+                    <a href="#" onclick="cargarVista('/documentos/enviados')" class="nav-link">
+                        <i class="bi bi-send"></i> <span class="sidebar-text">Enviados</span>
+                    </a>
+                </li>
 
-                <a class="nav-link d-flex align-items-center gap-2" href="#" data-module="papelera">
+
+                <a class="nav-link d-flex align-items-center gap-2" href="#" onclick="cargarVista('/papelera')">
                     <i class="bi bi-trash"></i> Papelera
                 </a>
 
 
-                <a class="nav-link d-flex align-items-center gap-2" href="#" data-module="aprobacion">
+                <a class="nav-link d-flex align-items-center gap-2" href="#" onclick="cargarVista('/documentos/por-aprobar')">
                     <i class="bi bi-journal-check"></i> Docs por Aprobar
                 </a>
 
-                <a class="nav-link d-flex align-items-center gap-2 small" href="#" data-module="usuarios">
+                <a class="nav-link d-flex align-items-center gap-2 small" href="#" onclick="cargarVista('/usuarios')">
                     <i class="bi bi-person-plus"></i> Crear Usuario / Admin
                 </a>
+
             </nav>
 
         </aside>
@@ -102,11 +106,6 @@
                             </a>
                         </li>
 
-                        <li>
-                            <a class="dropdown-item" href="#" onclick="cargarVista('/perfil')">
-                                <i class="bi bi-key me-2"></i> Cambiar contraseña
-                            </a>
-                        </li>
 
                         <li>
                             <hr class="dropdown-divider">

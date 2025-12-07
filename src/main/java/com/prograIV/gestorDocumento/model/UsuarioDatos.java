@@ -10,18 +10,18 @@ public class UsuarioDatos {
 
     @Id
     @Column(name = "id_usuario")
-    private Long idUsuario;
+    public Long idUsuario;
 
     @Column(nullable = false)
-    private String nombre;
+    public String nombre;
 
     @Column(nullable = false)
-    private String apellido;
+    public String apellido;
 
     private String foto;
 
     @Column(nullable = false)
-    private String correo;
+    public String correo;
 
     private Boolean activo = true;
 

@@ -29,7 +29,7 @@ public class Documento {
     private String ubicacion;
 
     @Column(name = "estado_actual", nullable = false, length = 30)
-    private String estadoActual;
+    public String estadoActual;
 
     @Column(nullable = false)
     private Integer version;
@@ -38,5 +38,5 @@ public class Documento {
     private LocalDateTime creadoEn;
 
     @Column(name = "actualizado_en")
-    private LocalDateTime actualizadoEn;
+    public LocalDateTime actualizadoEn;
 }
