@@ -40,15 +40,16 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("El usuario no tiene roles asignados");
         }
 
-        List<SimpleGrantedAuthority> authorities =
-                roles.stream()
-                        .map(rol -> new SimpleGrantedAuthority("ROLE_" + rol.toUpperCase()))
-                        .toList();
+        List<SimpleGrantedAuthority> authorities = roles.stream()
+                .map(rol -> new SimpleGrantedAuthority("ROLE_" + rol.toUpperCase()))
+                .toList();
+
+        System.out.println("=== ROLES DESDE BD === " + roles);
+        System.out.println("=== AUTHORITIES GENERADAS === " + authorities);
 
         return new org.springframework.security.core.userdetails.User(
                 usuario.getNombreUsuario(),
                 usuario.getPasswordHash(),
-                authorities
-        );
+                authorities);
     }
 }

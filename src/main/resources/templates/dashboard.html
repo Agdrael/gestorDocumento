@@ -32,10 +32,11 @@
 
             <!-- SECCIÓN PRINCIPAL -->
             <nav class="nav flex-column gap-1 menu">
-                <a class="nav-link d-flex align-items-center gap-2" th:if="${usuarioRol == 'admin'}"
-                    href="/dashboard-admin">
-                    <i class="bi bi-speedometer2"></i> Dashboard Admin
+                <a class="nav-link d-flex align-items-center gap-2" th:if="${usuarioRol == 'admin'}" href="#"
+                    onclick="cargarVista('/dashboard-admin')">
+                    <i class="bi bi-speedometer2"></i> Dashboard
                 </a>
+
 
                 <a class="nav-link d-flex align-items-center gap-2" href="#"
                     onclick="cargarVista('/dashboard-content')">
@@ -50,6 +51,7 @@
                 <a class="nav-link d-flex align-items-center gap-2" href="#" data-module="papelera">
                     <i class="bi bi-trash"></i> Papelera
                 </a>
+
 
                 <a class="nav-link d-flex align-items-center gap-2" href="#" data-module="aprobacion">
                     <i class="bi bi-journal-check"></i> Docs por Aprobar
@@ -134,7 +136,7 @@
 
     <!-- SAP JS -->
     <script src="/js/sap.js"></script>
-    
+
 
 
 </body>

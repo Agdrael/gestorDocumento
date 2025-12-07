@@ -49,9 +49,14 @@ public class DashboardController {
 
     @GetMapping("/dashboard-admin")
     public String dashboardAdmin(Authentication auth) {
-        if (auth.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_admin"))) {
+
+        boolean esAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equalsIgnoreCase("ROLE_ADMIN"));
+
+        if (!esAdmin) {
             return "redirect:/dashboard";
         }
+
         return "dashboard-admin";
     }
 

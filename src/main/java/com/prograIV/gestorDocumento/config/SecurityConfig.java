@@ -32,20 +32,35 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // necesario para logout por GET
             .userDetailsService(userDetailsService)
             .authorizeHttpRequests(auth -> auth
+
+                // Recursos estáticos
                 .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
-                .requestMatchers("/login", "/procesar-login", "/usuarios/crear").permitAll()
+
+                // LOGIN + PROCESAMIENTO DE LOGIN RESTAURADO
+                .requestMatchers("/login", "/procesar-login").permitAll()
+
+                // Registro (si lo usas)
+                .requestMatchers("/usuarios/crear").permitAll()
+
+                // Rutas protegidas
                 .requestMatchers("/perfil", "/perfil/**").authenticated()
-                .requestMatchers("/api/admin/**", "/dashboard-admin").hasAuthority("admin")
+                .requestMatchers("/api/admin/**", "/dashboard-admin").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/documentos/**").authenticated()
+
+                // Todo lo demás requiere sesión
                 .anyRequest().authenticated()
             )
+
+            // --- LOGIN RESTAURADO COMO LA VERSIÓN QUE FUNCIONABA ---
             .formLogin(form -> form
                 .loginPage("/login")
-                .loginProcessingUrl("/procesar-login")
+                .loginProcessingUrl("/procesar-login") // <- ESTA ES LA LÍNEA CLAVE
                 .defaultSuccessUrl("/dashboard", true)
                 .failureUrl("/login?error=true")
                 .permitAll()
             )
+
+            // --- LOGOUT ---
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")
